@@ -54,6 +54,18 @@ class GetSidebarMenuAction
                 ],
             ],
             [
+                'text' => 'Akun Saldo',
+                'url'  => route('akun.index'),
+                'icon' => 'VDashboard',
+                'can'  => 'view_general_dashboard'
+            ],
+            [
+                'text' => 'Karyawan',
+                'url'  => route('karyawan.index'),
+                'icon' => 'VDashboard',
+                'can'  => 'view_general_dashboard'
+            ],
+            [
                 'text' => 'Settings',
                 'icon' => 'VSetting',
                 'group' => true,

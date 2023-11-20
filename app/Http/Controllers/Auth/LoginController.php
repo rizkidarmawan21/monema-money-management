@@ -81,7 +81,7 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
         return response()->json([
             "status" => 422,
-            "message" => "Whoops! Login Error Occurred, Check Your Username And Password Again",
+            "message" => "Ups ada kesalahan, silahkan cek kembali email dan password anda",
         ], 422);
     }
 
