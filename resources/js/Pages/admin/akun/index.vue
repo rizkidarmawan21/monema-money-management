@@ -198,9 +198,9 @@ onMounted(() => {
             <tr v-for="(data, index) in query" :key="index" v-else>
                 <td class="h-16 px-4 whitespace-nowrap"> {{ index + 1 }} </td>
                 <td class="px-4 whitespace-nowrap h-16 text-sky-600 underline cursor-pointer" @click="handleDetail(data)">
-                    {{ data.nama }} </td>
-                <td class="h-16 px-4"> {{ data.telepon }} </td>
-                <td class="h-16 px-4">Rp. {{ data.jabatan ?? '-' }} </td>
+                    {{ data.nama_akun }} </td>
+                <td class="h-16 px-4"> {{ data.keterangan ?? '-' }} </td>
+                <td class="h-16 px-4">Rp. {{ data.saldo.toLocaleString('id-ID') }} </td>
                 <td class="h-16 px-4 text-right whitespace-nowrap">
                     <VDropdownEditMenu class="relative inline-flex r-0" :align="'right'"
                         :last="index === query.length - 1 ? true : false">
