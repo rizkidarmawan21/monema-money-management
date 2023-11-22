@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('keterangan')->nullable();
             $table->integer('saldo')->default(0);
 
-            $table->softDeletes();
+            $table->softDeletes(); 
             $table->timestamps();
         });
     }

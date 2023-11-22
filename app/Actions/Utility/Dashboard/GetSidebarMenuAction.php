@@ -36,18 +36,18 @@ class GetSidebarMenuAction
                 ],
             ],
             [
-                'text' => 'Transaction',
+                'text' => 'Transaksi',
                 'icon' => 'VSetting',
                 'group' => true,
                 // 'can' => ['view_systems_role_management'],
                 'submenu' => [
                     [
-                        'text' => 'Test 1',
+                        'text' => 'Pengeluaran',
                         'url'  => route('test'),
                         // 'can'  => ['view_systems_role_management']
                     ],
                     [
-                        'text' => 'Test 2',
+                        'text' => 'Pemasukan',
                         'url'  => route('test2'),
                         // 'can'  => ['view_systems_role_management']
                     ]
@@ -61,6 +61,12 @@ class GetSidebarMenuAction
             ],
             [
                 'text' => 'Karyawan',
+                'url'  => route('karyawan.index'),
+                'icon' => 'VDashboard',
+                'can'  => 'view_general_dashboard'
+            ],
+            [
+                'text' => 'Laporan',
                 'url'  => route('karyawan.index'),
                 'icon' => 'VDashboard',
                 'can'  => 'view_general_dashboard'
