@@ -21,7 +21,7 @@ class Pengeluaran extends Model
 
     public function transaksi()
     {
-        return $this->morphTo(Transaksi::class, 'transaksiable');
+        return $this->morphOne(Transaksi::class, 'transaksiable');
     }
 
     public function karyawan()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Pengeluaran;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Resources\Json\ResourceResponse;
@@ -33,9 +34,9 @@ class PengeluaranListResource extends ResourceCollection
             'nama' => $data->nama_pengeluaran,
             'nominal' => $data->nominal,
             'keterangan' => $data->keterangan,
-            'tanggal' => $data->tanggal,
-            'karyawan' => $data->karyawan->nama,
-            'akun_saldo' => $data->akun_saldo->nama_akun,
+            'tanggal' => Carbon::parse($data->tanggal)->format('d-m-Y'),
+            'karyawan' => $data->karyawan->nama ?? null,
+            'akun_saldo' => $data->akun_saldo->nama_akun ,
             'akun_saldo_id' => $data->akun_saldo_id,
             'user_id' => $data->user_id,
             'creator' => $data->user,

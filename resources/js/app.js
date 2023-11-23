@@ -5,6 +5,8 @@ import route from "ziggy-js";
 
 // Plugin
 import Notifications from "notiwind";
+import Datepicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 
 // Font Awesome Setup
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -29,6 +31,7 @@ createInertiaApp({
             .use(plugin)
             .use(Notifications)
             .component("font-awesome-icon", FontAwesomeIcon)
+            .component("Datepicker", Datepicker)
             .mount(el);
     },
 });

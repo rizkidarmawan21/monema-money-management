@@ -43,7 +43,7 @@ class GetSidebarMenuAction
                 'submenu' => [
                     [
                         'text' => 'Pengeluaran',
-                        'url'  => route('test'),
+                        'url'  => route('transaksi.keluar.index'),
                         // 'can'  => ['view_systems_role_management']
                     ],
                     [
