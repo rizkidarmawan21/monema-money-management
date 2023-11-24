@@ -21,9 +21,10 @@ import VButton from '@/components/VButton/index.vue';
 import VAlert from '@/components/VAlert/index.vue';
 import VEdit from '@/components/src/icons/VEdit.vue';
 import VTrash from '@/components/src/icons/VTrash.vue';
+import VDetail from '@/components/src/icons/VDetail.vue';
 import VFilter from './Filter.vue';
 import VModalForm from './ModalForm.vue';
-import { Inertia } from "@inertiajs/inertia";
+import VModalDetail from './ModalDetail.vue';
 
 const query = ref([])
 const searchFilter = ref("");
@@ -55,6 +56,7 @@ const updateAction = ref(false)
 const itemSelected = ref({})
 const openAlert = ref(false)
 const openModalForm = ref(false)
+const openModalDetail = ref(false)
 const heads = ["No", "Nama", "Akun Saldo", "Nominal", "Karyawan", "Tanggal", ""]
 const isLoading = ref(true)
 
@@ -100,10 +102,6 @@ const searchHandle = (search) => {
 };
 
 
-const handleDetail = (data) => {
-    Inertia.visit(route('contacts.customer.show', { 'id': data.id }));
-}
-
 const handleAddModalForm = () => {
     updateAction.value = false
     openModalForm.value = true
@@ -123,6 +121,16 @@ const successSubmit = () => {
 const closeModalForm = () => {
     itemSelected.value = ref({})
     openModalForm.value = false
+}
+
+const closeModalDetail = () => {
+    itemSelected.value = ref({})
+    openModalDetail.value = false
+}
+
+const handleDetailModal = (data) => {
+    itemSelected.value = data
+    openModalDetail.value = true
 }
 
 const alertDelete = (data) => {
@@ -177,7 +185,7 @@ onMounted(() => {
             </h2>
             <div class="sm:flex justify-end mt-3 sm:space-x-2 sm:mt-0 sm:justify-between">
                 <!-- Filter -->
-                <!-- <VFilter @search="searchHandle" /> -->
+                <VFilter @search="searchHandle" />
                 <VButton label="Tambah" type="primary" @click="handleAddModalForm" class="sm:mt-auto mt-2" />
             </div>
         </header>
@@ -198,19 +206,19 @@ onMounted(() => {
             </tr>
             <tr v-for="(data, index) in query" :key="index" v-else>
                 <td class="h-16 px-4 whitespace-nowrap"> {{ index + 1 }} </td>
-                <td class="px-4 whitespace-nowrap h-16 text-sky-600 underline cursor-pointer" @click="handleDetail(data)">
+                <td class="px-4 whitespace-nowrap h-16">
                     {{ data.nama }} </td>
                 <td class="h-16 px-4"> {{ data.akun_saldo }} </td>
-                <td class="h-16 px-4"> {{ data.nominal }} </td>
+                <td class="h-16 px-4">Rp. {{ data.nominal.toLocaleString('id-ID') }} </td>
                 <td class="h-16 px-4"> {{ data.karyawan ?? '-' }} </td>
-                <td class="h-16 px-4"> {{ data.tanggal }} </td>
+                <td class="h-16 px-4"> {{ data.tanggal_format }} </td>
                 <td class="h-16 px-4 text-right whitespace-nowrap">
-                    <VDropdownEditMenu class="relative inline-flex r-0" :align="'right'"
+                    <VDropdownEditMenu class="relative inline-flex r-0 t-0" :align="'right'"
                         :last="index === query.length - 1 ? true : false">
-                        <li class="cursor-pointer hover:bg-slate-100">
-                            <div class="flex items-center justify-between p-3 space-x-2" @click="alertDelete(data)">
+                        <li class="cursor-pointer hover:bg-slate-100" @click="handleDetailModal(data)">
+                            <div class="flex items-center p-3 space-x-2">
                                 <span>
-                                    <VTrash color="danger" />
+                                    <VDetail color="primary" />
                                 </span>
                                 <span>Detail</span>
                             </div>
@@ -244,4 +252,6 @@ onMounted(() => {
         :submit-label="alertData.submitLabel" />
     <VModalForm :additional="additional" :data="itemSelected" :update-action="updateAction" :open-dialog="openModalForm"
         @close="closeModalForm" @successSubmit="successSubmit" />
+
+    <VModalDetail :data="itemSelected" :open-dialog="openModalDetail" @close="closeModalDetail" />
 </template>

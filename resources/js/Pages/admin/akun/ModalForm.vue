@@ -139,7 +139,7 @@ const create = async () => {
                     <VInput placeholder="Masukkan Keterangan" label="Keterangan" v-model="form.keterangan"
                         :errorMessage="formError.keterangan" @update:modelValue="formError.keterangan = ''" />
                 </div>
-                <div class="col-span-2">
+                <div class="col-span-2" v-if="!updateAction">
                     <VInput placeholder="Masukkan Saldo Awal" label="Saldo Awal" :required="!updateAction"
                         v-model="form.saldo" :errorMessage="formError.saldo" @update:modelValue="formError.saldo = ''"
                         type="number" />

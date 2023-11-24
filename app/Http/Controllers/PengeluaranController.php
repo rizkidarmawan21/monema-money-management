@@ -73,6 +73,7 @@ class PengeluaranController extends AdminBaseController
             }
 
             $inputs['user_id'] = auth()->user()->id;
+            $inputs['tanggal'] = date('Y-m-d', strtotime($inputs['tanggal']));
 
             $pengeluaran = Pengeluaran::create($inputs);
 

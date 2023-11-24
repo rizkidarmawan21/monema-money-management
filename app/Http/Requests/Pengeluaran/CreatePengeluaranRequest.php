@@ -27,7 +27,7 @@ class CreatePengeluaranRequest extends FormRequest
             'nama_pengeluaran' => 'required|string',
             'nominal' => 'required|numeric',
             'keterangan' => 'nullable|string',
-            'tanggal' => 'nullable|date',
+            'tanggal' => 'nullable',
             'karyawan_id' => 'nullable|exists:karyawans,id',
             'akun_saldo_id' => 'required|exists:akun_saldos,id',
         ];
