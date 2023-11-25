@@ -17,4 +17,9 @@ class Transaksi extends Model
     {
         return $this->morphTo();
     }
+
+    public function akun_saldo()
+    {
+        return $this->belongsTo(AkunSaldo::class);
+    }
 }

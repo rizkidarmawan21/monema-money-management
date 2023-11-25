@@ -6,7 +6,7 @@ export default {
 <script setup>
 import axios from "axios";
 import { notify } from "notiwind";
-import { any, string } from "vue-types";
+import { string } from "vue-types";
 import { Head } from "@inertiajs/inertia-vue3";
 import { ref, onMounted, reactive } from "vue";
 import AppLayout from '@/layouts/apps.vue';
@@ -18,13 +18,10 @@ import VBreadcrumb from '@/components/VBreadcrumb/index.vue';
 import VLoading from '@/components/VLoading/index.vue';
 import VEmpty from '@/components/src/icons/VEmpty.vue';
 import VButton from '@/components/VButton/index.vue';
-import VAlert from '@/components/VAlert/index.vue';
-import VEdit from '@/components/src/icons/VEdit.vue';
-import VTrash from '@/components/src/icons/VTrash.vue';
 import VDetail from '@/components/src/icons/VDetail.vue';
 import VFilter from './Filter.vue';
 import VModalForm from './ModalForm.vue';
-import VModalDetail from './ModalDetail.vue';
+import { Inertia } from "@inertiajs/inertia";
 
 const query = ref([])
 const searchFilter = ref("");
@@ -35,7 +32,7 @@ const breadcrumb = [
         to: route('dashboard.index')
     },
     {
-        name: "Pengeluaran",
+        name: "Histori Transaksi",
         active: true,
     },
 ]
@@ -46,27 +43,17 @@ const pagination = ref({
     total: 0,
     total_pages: 1
 })
-const alertData = reactive({
-    headerLabel: '',
-    contentLabel: '',
-    closeLabel: '',
-    submitLabel: '',
-})
-const updateAction = ref(false)
 const itemSelected = ref({})
-const openAlert = ref(false)
 const openModalForm = ref(false)
-const openModalDetail = ref(false)
-const heads = ["No", "Nama", "Akun Saldo", "Nominal", "Karyawan", "Tanggal", ""]
+const heads = ["No", "Transaksi", "Akun Saldo", "Nominal", "Tanggal", "Dibuat Oleh", ""]
 const isLoading = ref(true)
 
 const props = defineProps({
-    title: string(),
-    additional: any()
+    title: string()
 })
 
 const getData = debounce(async (page) => {
-    axios.get(route('transaksi.keluar.get-data'), {
+    axios.get(route('transaksi.histori.get-data'), {
         params: {
             page: page,
             search: searchFilter.value
@@ -102,70 +89,17 @@ const searchHandle = (search) => {
 };
 
 
-const handleAddModalForm = () => {
-    updateAction.value = false
-    openModalForm.value = true
-}
-
-const handleEditModal = (data) => {
-    updateAction.value = true
+const handleAddModalForm = (data) => {
     itemSelected.value = data
     openModalForm.value = true
 }
 
-const successSubmit = () => {
-    isLoading.value = true
-    getData(pagination.value.current_page)
-}
 
 const closeModalForm = () => {
     itemSelected.value = ref({})
     openModalForm.value = false
 }
 
-const closeModalDetail = () => {
-    itemSelected.value = ref({})
-    openModalDetail.value = false
-}
-
-const handleDetailModal = (data) => {
-    itemSelected.value = data
-    openModalDetail.value = true
-}
-
-const alertDelete = (data) => {
-    itemSelected.value = data
-    openAlert.value = true
-    alertData.headerLabel = 'Anda yakin ingin mengahapus data ini?'
-    alertData.contentLabel = "Anda tidak bisa mengembalikan data yang telah dihapus!"
-    alertData.closeLabel = 'Batal'
-    alertData.submitLabel = 'Hapus'
-}
-
-const closeAlert = () => {
-    itemSelected.value = ref({})
-    openAlert.value = false
-}
-
-const deleteHandle = async () => {
-    axios.delete(route('transaksi.keluar.delete', { 'id': itemSelected.value.id })
-    ).then((res) => {
-        notify({
-            type: "success",
-            group: "top",
-            text: res.data.meta.message
-        }, 2500)
-        openAlert.value = false
-        isLoading.value = true
-        getData(pagination.value.current_page)
-    }).catch((res) => {
-        notify({
-            type: "error",
-            group: "top",
-            text: res.response.data.message
-        }, 2500)
-    })
-};
 
 onMounted(() => {
     getData(1);
@@ -176,17 +110,17 @@ onMounted(() => {
     <Head :title="props.title" />
     <VBreadcrumb :routes="breadcrumb" />
     <div class="flex items-center justify-between mb-4 sm:mb-6">
-        <h1 class="text-2xl font-bold md:text-3xl text-slate-800">Data Pengeluaran</h1>
+        <h1 class="text-2xl font-bold md:text-3xl text-slate-800">Data Histori Transaksi</h1>
     </div>
     <div class="bg-white border rounded-sm shadow-lg border-slate-200" :class="isLoading && 'min-h-[40vh] sm:min-h-[50vh]'">
         <header class="items-center justify-between block px-4 py-6 sm:flex">
             <h2 class="font-semibold text-slate-800">
-                Semua Pengeluaran <span class="text-slate-400 !font-medium ml">({{ pagination.total }})</span>
+                Semua Transaksi <span class="text-slate-400 !font-medium ml">({{ pagination.total }})</span>
             </h2>
             <div class="sm:flex justify-end mt-3 sm:space-x-2 sm:mt-0 sm:justify-between">
                 <!-- Filter -->
                 <VFilter @search="searchHandle" />
-                <VButton label="Tambah" type="primary" @click="handleAddModalForm" class="sm:mt-auto mt-2" />
+                <!-- <VButton label="Tambah" type="primary" @click="handleAddModalForm" class="sm:mt-auto mt-2" /> -->
             </div>
         </header>
 
@@ -207,36 +141,22 @@ onMounted(() => {
             <tr v-for="(data, index) in query" :key="index" v-else>
                 <td class="h-16 px-4 whitespace-nowrap"> {{ index + 1 }} </td>
                 <td class="px-4 whitespace-nowrap h-16">
-                    {{ data.nama }} </td>
+                    {{ data.nama_transaksi }} </td>
                 <td class="h-16 px-4"> {{ data.akun_saldo }} </td>
-                <td class="h-16 px-4">Rp. {{ data.nominal.toLocaleString('id-ID') }} </td>
-                <td class="h-16 px-4"> {{ data.karyawan ?? '-' }} </td>
-                <td class="h-16 px-4"> {{ data.tanggal_format }} </td>
+                <td class="h-16 px-4" :class="data.nama_transaksi == 'Pengeluaran' ? 'text-red-500' : 'text-green-500'">
+                    {{ data.jumlah < 0 ? '-' : '' }} Rp. {{ Math.abs(data.jumlah).toLocaleString('id-ID') ?? '-' }} </td>
+
+                <td class="h-16 px-4"> {{ data.tanggal ?? '-' }} </td>
+                <td class="h-16 px-4"> {{ data.creator ?? '-' }} </td>
                 <td class="h-16 px-4 text-right whitespace-nowrap">
-                    <VDropdownEditMenu class="relative inline-flex r-0 t-0" :align="'right'"
+                    <VDropdownEditMenu class="relative inline-flex r-0" :align="'right'"
                         :last="index === query.length - 1 ? true : false">
-                        <li class="cursor-pointer hover:bg-slate-100" @click="handleDetailModal(data)">
+                        <li class="cursor-pointer hover:bg-slate-100" @click="handleAddModalForm(data)">
                             <div class="flex items-center p-3 space-x-2">
                                 <span>
                                     <VDetail color="primary" />
                                 </span>
                                 <span>Detail</span>
-                            </div>
-                        </li>
-                        <li class="cursor-pointer hover:bg-slate-100" @click="handleEditModal(data)">
-                            <div class="flex items-center p-3 space-x-2">
-                                <span>
-                                    <VEdit color="primary" />
-                                </span>
-                                <span>Ubah</span>
-                            </div>
-                        </li>
-                        <li class="cursor-pointer hover:bg-slate-100">
-                            <div class="flex items-center justify-between p-3 space-x-2" @click="alertDelete(data)">
-                                <span>
-                                    <VTrash color="danger" />
-                                </span>
-                                <span>Hapus</span>
                             </div>
                         </li>
                     </VDropdownEditMenu>
@@ -247,11 +167,5 @@ onMounted(() => {
             <VPagination :pagination="pagination" @next="nextPaginate" @previous="previousPaginate" />
         </div>
     </div>
-    <VAlert :open-dialog="openAlert" @closeAlert="closeAlert" @submitAlert="deleteHandle" type="danger"
-        :headerLabel="alertData.headerLabel" :content-label="alertData.contentLabel" :close-label="alertData.closeLabel"
-        :submit-label="alertData.submitLabel" />
-    <VModalForm :additional="additional" :data="itemSelected" :update-action="updateAction" :open-dialog="openModalForm"
-        @close="closeModalForm" @successSubmit="successSubmit" />
-
-    <VModalDetail :data="itemSelected" :open-dialog="openModalDetail" @close="closeModalDetail" />
+    <VModalForm :open-dialog="openModalForm" :data="itemSelected" @close="closeModalForm" />
 </template>

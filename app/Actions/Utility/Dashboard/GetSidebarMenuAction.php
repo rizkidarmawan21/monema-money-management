@@ -48,7 +48,7 @@ class GetSidebarMenuAction
                     ],
                     [
                         'text' => 'Pemasukan',
-                        'url'  => route('test2'),
+                        'url'  => route('transaksi.masuk.index'),
                         // 'can'  => ['view_systems_role_management']
                     ]
                 ],

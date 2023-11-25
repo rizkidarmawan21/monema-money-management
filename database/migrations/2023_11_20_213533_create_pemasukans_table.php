@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('nama_pemasukkan');
             $table->string('nominal');
-            $table->string('keterangan');
+            $table->string('keterangan')->nullable();
             $table->date('tanggal');
 
             $table->softDeletes();

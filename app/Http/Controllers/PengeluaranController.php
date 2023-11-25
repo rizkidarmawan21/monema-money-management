@@ -121,11 +121,10 @@ class PengeluaranController extends AdminBaseController
             $pengeluaran->update($inputs);
 
             $pengeluaran->transaksi()->update([
-                'nominal' => $pengeluaran->nominal,
-                'tanggal' => $pengeluaran->tanggal,
-                'keterangan' => $pengeluaran->keterangan,
-                'user_id' => $pengeluaran->user_id,
                 'akun_saldo_id' => $pengeluaran->akun_saldo_id,
+                'jumlah' => $pengeluaran->nominal,
+                'keterangan' => $pengeluaran->keterangan,
+                'jenis_transaksi' => 'kredit',
             ]);
 
             $pengeluaran->akun_saldo->update([
@@ -148,11 +147,12 @@ class PengeluaranController extends AdminBaseController
 
             $pengeluaran->transaksi()->delete();
 
-            $pengeluaran->delete();
-
             $pengeluaran->akun_saldo->update([
                 'saldo' => (int) $pengeluaran->akun_saldo->saldo + (int) $pengeluaran->nominal
             ]);
+
+            $pengeluaran->delete();
+
 
             $result = new SubmitDefaultResource($pengeluaran, 'Pengeluaran berhasil dihapus');
 
