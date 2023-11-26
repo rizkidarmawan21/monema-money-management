@@ -67,7 +67,7 @@ class GetSidebarMenuAction
             ],
             [
                 'text' => 'Laporan',
-                'url'  => route('karyawan.index'),
+                'url'  => route('transaksi.histori.index'),
                 'icon' => 'VDashboard',
                 'can'  => 'view_general_dashboard'
             ],
