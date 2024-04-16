@@ -126,7 +126,7 @@ const create = async () => {
 </script>
 
 <template>
-    <VDialog :showModal="openDialog" :title="updateAction ? 'Ubah Pengeluaran' : 'Tambah Pengeluaran'" @opened="openForm"
+    <VDialog :showModal="openDialog" :title="updateAction ? 'Ubah Pemasukan' : 'Tambah Pemasukan'" @opened="openForm"
         @closed="closeForm" size="xl">
         <template v-slot:close>
             <button class="text-slate-400 hover:text-slate-500" @click="$emit('close')">

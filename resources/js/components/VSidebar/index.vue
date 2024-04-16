@@ -85,8 +85,8 @@ watch(sidebarExpanded, () => {
                 <div class="flex w-full sidebar-expanded:justify-between justify-end">
                     <Link :class="sidebarExpanded ?  'block' : 'hidden'" class="pl-2 transition-all duration-200" href="/">
                         <div class="flex justify-start w-full">
-                            <img class="w-8 h-8 rounded-full" src="https://static.vecteezy.com/system/resources/previews/012/697/294/original/3d-laravel-programming-framework-logo-free-png.png" alt="Company Logo" />
-                            <div class="ml-2 my-auto text-white font-bold text-lg">Logo</div>
+                            <img class="w-8 h-8 rounded-full" src="https://ik.imagekit.io/ef57ibaaq/Monema/logo-monema.png?updatedAt=1713242775897g" alt="Company Logo" />
+                            <div class="ml-2 my-auto text-white font-bold text-lg">Monema</div>
                         </div>
                     </Link>
                     <div @click.prevent="sidebarExpanded = !sidebarExpanded" :class="!sidebarExpanded ? 'mx-1' : ''"

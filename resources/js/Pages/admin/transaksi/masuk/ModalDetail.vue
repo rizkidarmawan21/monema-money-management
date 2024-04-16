@@ -13,7 +13,7 @@ const emit = defineEmits(['close'])
 </script>
 
 <template>
-    <VDialog :showModal="openDialog" title="Pengeluaran" size="xl">
+    <VDialog :showModal="openDialog" title="Pemasukan" size="xl">
         <template v-slot:close>
             <button class="text-slate-400 hover:text-slate-500" @click="$emit('close')">
                 <div class="sr-only">Close</div>
@@ -27,7 +27,7 @@ const emit = defineEmits(['close'])
             <div class="grid grid-cols-2 gap-3">
                 <div class="col-span-2 sm:col-span-1">
                     <p class="font-bold">
-                        Nama Pengeluaran
+                        Nama Pemasukan
                     </p>
                     <p>
                         {{ data.nama }}
@@ -44,18 +44,10 @@ const emit = defineEmits(['close'])
                 </div>
                 <div class="col-span-2 sm:col-span-1">
                     <p class="font-bold">
-                        Nominal Pengeluaran
+                        Nominal Pemasukan
                     </p>
                     <p>
                         Rp. {{ Number(data.nominal).toLocaleString('id-ID') }}
-                    </p>
-                </div>
-                <div class="col-span-2 sm:col-span-1">
-                    <p class="font-bold">
-                        Karyawan
-                    </p>
-                    <p>
-                        {{ data.karyawan }}
                     </p>
                 </div>
                 <div class="col-span-2 sm:col-span-1">
